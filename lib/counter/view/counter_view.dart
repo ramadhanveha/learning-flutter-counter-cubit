@@ -5,6 +5,20 @@ import 'package:flutter_counter_cubit/counter/counter.dart';
 class CounterView extends StatelessWidget {
   const CounterView({super.key});
 
+  void _showSnackbarIfMultipleOfFive(BuildContext context) {
+    final state = context.read<CounterCubit>().state;
+    if (state % 5 == 0) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text("State is a multiple of 5: $state"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +53,7 @@ class CounterView extends StatelessWidget {
               child: const Icon(Icons.add),
               onPressed: () {
                 context.read<CounterCubit>().increment();
+                _showSnackbarIfMultipleOfFive(context);
               },
             ),
             const SizedBox(height: 10),
@@ -49,6 +64,7 @@ class CounterView extends StatelessWidget {
               child: const Icon(Icons.remove),
               onPressed: () {
                 context.read<CounterCubit>().decrement();
+                _showSnackbarIfMultipleOfFive(context);
               },
             ),
             const SizedBox(height: 10),
@@ -59,6 +75,7 @@ class CounterView extends StatelessWidget {
               child: const Icon(Icons.clear),
               onPressed: () {
                 context.read<CounterCubit>().multiply();
+                _showSnackbarIfMultipleOfFive(context);
               },
             ),
             const SizedBox(height: 10),
@@ -72,6 +89,7 @@ class CounterView extends StatelessWidget {
               ),
               onPressed: () {
                 context.read<CounterCubit>().decreaseByTwo();
+                _showSnackbarIfMultipleOfFive(context);
               },
             ),
             const SizedBox(height: 10),
